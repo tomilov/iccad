@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/icons/toolbuttons">
+        <file>icons/toolbuttons/add.png</file>
+        <file>icons/toolbuttons/add_gray.png</file>
+        <file>icons/toolbuttons/arrow-down.png</file>
+        <file>icons/toolbuttons/arrow-up.png</file>
+        <file>icons/toolbuttons/del.png</file>
+        <file>icons/toolbuttons/del_gray.png</file>
+        <file>icons/toolbuttons/next.png</file>
+        <file>icons/toolbuttons/previous.png</file>
+        <file>icons/toolbuttons/wrap.png</file>
+        <file>icons/toolbuttons/zoomin.png</file>
+        <file>icons/toolbuttons/zoomout.png</file>
+        <file>icons/toolbuttons/build_small.png</file>
+        <file>icons/toolbuttons/python_icon.png</file>
+        <file>icons/toolbuttons/advanced.png</file>
+        <file>icons/toolbuttons/intel-128.png</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file>icons/build.png</file>
+    </qresource>
+</RCC>

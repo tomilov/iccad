@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>InsitucCADMainWindow</class>
+ <widget class="QMainWindow" name="InsitucCADMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>820</width>
+    <height>576</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>InsitucCADMainWindow</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="iccad.qrc">
+    <normaloff>:/icons/icons/build.png</normaloff>:/icons/icons/build.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayoutCentral">
+    <item row="0" column="0" colspan="2">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="tabPosition">
+       <enum>QTabWidget::South</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tabSource">
+       <attribute name="title">
+        <string>Source</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayoutSource">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBoxGlobals">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>186</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Globals variables</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <layout class="QGridLayout" name="gridLayoutGlobalVariables">
+           <item row="0" column="0">
+            <widget class="QToolButton" name="toolButtonAddGlobalVariable">
+             <property name="toolTip">
+              <string>Add global variable</string>
+             </property>
+             <property name="statusTip">
+              <string>Add global variable</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="iccad.qrc">
+               <normaloff>:/icons/toolbuttons/icons/toolbuttons/add.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/add.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QToolButton" name="toolButtonRemoveGlobalVariable">
+             <property name="toolTip">
+              <string>Delete global variable</string>
+             </property>
+             <property name="statusTip">
+              <string>Delete global variable</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="iccad.qrc">
+               <normaloff>:/icons/toolbuttons/icons/toolbuttons/del.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/del.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="5">
+            <widget class="QTableView" name="tableViewGlobalVariables">
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QGroupBox" name="groupBoxSource">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Source code</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayoutSourceCode">
+           <item row="1" column="0" colspan="3">
+            <widget class="QTextEdit" name="textEditSource">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QToolButton" name="toolButtonParse">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="iccad.qrc">
+               <normaloff>:/icons/toolbuttons/icons/toolbuttons/python_icon.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/python_icon.png</iconset>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabTransformAst">
+       <attribute name="title">
+        <string>AST transformation</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>320</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Transformations tree</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="1">
+            <widget class="QToolButton" name="toolButtonAddChildTransformation">
+             <property name="toolTip">
+              <string>Add global variable</string>
+             </property>
+             <property name="statusTip">
+              <string>Add global variable</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="iccad.qrc">
+               <normaloff>:/icons/toolbuttons/icons/toolbuttons/add_gray.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/add_gray.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QToolButton" name="toolButtonAddTransformation">
+             <property name="toolTip">
+              <string>Add global variable</string>
+             </property>
+             <property name="statusTip">
+              <string>Add global variable</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="iccad.qrc">
+               <normaloff>:/icons/toolbuttons/icons/toolbuttons/add.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/add.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="6">
+            <widget class="QTreeView" name="treeViewTransformations">
+             <property name="dragEnabled">
+              <bool>true</bool>
+             </property>
+             <property name="dragDropMode">
+              <enum>QAbstractItemView::InternalMove</enum>
+             </property>
+             <property name="defaultDropAction">
+              <enum>Qt::MoveAction</enum>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::ExtendedSelection</enum>
+             </property>
+             <attribute name="headerMinimumSectionSize">
+              <number>0</number>
+             </attribute>
+            </widget>
+           </item>
+           <item row="0" column="5">
+            <widget class="QToolButton" name="toolButtonTransform">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="iccad.qrc">
+               <normaloff>:/icons/toolbuttons/icons/toolbuttons/wrap.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/wrap.png</iconset>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QToolButton" name="toolButtonRemoveTransformation">
+             <property name="toolTip">
+              <string>Delete global variable</string>
+             </property>
+             <property name="statusTip">
+              <string>Delete global variable</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="iccad.qrc">
+               <normaloff>:/icons/toolbuttons/icons/toolbuttons/del.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/del.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QGroupBox" name="groupBoxAst">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>Abstract syntax tree</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="0">
+            <widget class="QToolButton" name="toolButtonBuild">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="iccad.qrc">
+               <normaloff>:/icons/toolbuttons/icons/toolbuttons/build_small.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/build_small.png</iconset>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QTextEdit" name="textEditAst">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabAssembly">
+       <attribute name="title">
+        <string>Assembly</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBoxAssembly">
+          <property name="title">
+           <string>Assembly listing</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_7">
+           <item row="0" column="0" colspan="2">
+            <widget class="QTextEdit" name="textEditAssembly">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabCalculation">
+       <attribute name="title">
+        <string>Calculation</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBoxGlobalsCalculation">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>186</width>
+          <height>447</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>186</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Globals variables</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_6">
+         <item row="0" column="0">
+          <widget class="QTableView" name="tableViewGlobalVariablesValues">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed</set>
+           </property>
+           <property name="dragEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="dragDropOverwriteMode">
+            <bool>false</bool>
+           </property>
+           <property name="dragDropMode">
+            <enum>QAbstractItemView::NoDragDrop</enum>
+           </property>
+           <property name="alternatingRowColors">
+            <bool>false</bool>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QToolButton" name="toolButtonInterpret">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>20</y>
+          <width>74</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Interpret</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+       <widget class="QToolButton" name="toolButtonCompile">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>20</y>
+          <width>69</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Compile</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>820</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuSymbols">
+    <property name="title">
+     <string>&amp;Symbols</string>
+    </property>
+    <addaction name="actionListReservedSymbols"/>
+    <addaction name="separator"/>
+    <addaction name="actionAddGlobalVariable"/>
+    <addaction name="actionRemoveGlobalVariable"/>
+   </widget>
+   <widget class="QMenu" name="menu_Build">
+    <property name="title">
+     <string>&amp;Build</string>
+    </property>
+    <addaction name="actionParse"/>
+    <addaction name="separator"/>
+    <addaction name="actionAddTransformation"/>
+    <addaction name="actionAddSuccessiveTransformation"/>
+    <addaction name="actionRemoveTransformation"/>
+    <addaction name="separator"/>
+    <addaction name="actionBuild"/>
+    <addaction name="actionInterpret"/>
+    <addaction name="actionCompile"/>
+    <addaction name="actionTransform"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuSymbols"/>
+   <addaction name="menu_Build"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionExit">
+   <property name="text">
+    <string>E&amp;xit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X, X</string>
+   </property>
+  </action>
+  <action name="actionListReservedSymbols">
+   <property name="text">
+    <string>&amp;Show reserved symbols</string>
+   </property>
+  </action>
+  <action name="actionAddGlobalVariable">
+   <property name="icon">
+    <iconset resource="iccad.qrc">
+     <normaloff>:/icons/toolbuttons/icons/toolbuttons/add.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Add global variable</string>
+   </property>
+  </action>
+  <action name="actionRemoveGlobalVariable">
+   <property name="icon">
+    <iconset resource="iccad.qrc">
+     <normaloff>:/icons/toolbuttons/icons/toolbuttons/del.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/del.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Remove global variable</string>
+   </property>
+  </action>
+  <action name="actionParse">
+   <property name="icon">
+    <iconset resource="iccad.qrc">
+     <normaloff>:/icons/toolbuttons/icons/toolbuttons/python_icon.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/python_icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Parse</string>
+   </property>
+   <property name="toolTip">
+    <string>Parse</string>
+   </property>
+  </action>
+  <action name="actionInterpret">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Interpret</string>
+   </property>
+  </action>
+  <action name="actionCompile">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Compile</string>
+   </property>
+  </action>
+  <action name="actionSimplify">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Simplify</string>
+   </property>
+  </action>
+  <action name="actionAddTransformation">
+   <property name="icon">
+    <iconset resource="iccad.qrc">
+     <normaloff>:/icons/toolbuttons/icons/toolbuttons/add.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Add transformation</string>
+   </property>
+  </action>
+  <action name="actionRemoveTransformation">
+   <property name="icon">
+    <iconset resource="iccad.qrc">
+     <normaloff>:/icons/toolbuttons/icons/toolbuttons/del.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/del.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Remove transformation</string>
+   </property>
+  </action>
+  <action name="actionAddSuccessiveTransformation">
+   <property name="icon">
+    <iconset resource="iccad.qrc">
+     <normaloff>:/icons/toolbuttons/icons/toolbuttons/add_gray.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/add_gray.png</iconset>
+   </property>
+   <property name="text">
+    <string>A&amp;dd successive transformation</string>
+   </property>
+  </action>
+  <action name="actionBuild">
+   <property name="icon">
+    <iconset resource="iccad.qrc">
+     <normaloff>:/icons/toolbuttons/icons/toolbuttons/build_small.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/build_small.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Build</string>
+   </property>
+  </action>
+  <action name="actionTransform">
+   <property name="icon">
+    <iconset resource="iccad.qrc">
+     <normaloff>:/icons/toolbuttons/icons/toolbuttons/wrap.png</normaloff>:/icons/toolbuttons/icons/toolbuttons/wrap.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Transform</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>textEditSource</tabstop>
+  <tabstop>toolButtonAddGlobalVariable</tabstop>
+  <tabstop>tableViewGlobalVariables</tabstop>
+  <tabstop>toolButtonRemoveGlobalVariable</tabstop>
+  <tabstop>toolButtonParse</tabstop>
+  <tabstop>tabWidget</tabstop>
+ </tabstops>
+ <resources>
+  <include location="iccad.qrc"/>
+ </resources>
+ <connections/>
+</ui>

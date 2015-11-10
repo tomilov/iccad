@@ -1,0 +1,8 @@
+iccad
+iccad.pro.user
+Makefile
+*.o
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+*.moc
