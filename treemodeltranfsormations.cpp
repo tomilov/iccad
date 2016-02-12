@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QColor>
 #include <QMimeData>
+#include <QDataStream>
 
 #include <algorithm>
 

@@ -188,13 +188,20 @@ void InsitucCADMainWindow::on_actionExit_triggered()
 void InsitucCADMainWindow::on_actionParse_triggered()
 {
     string_type const source_ = ui->textEditSource->toPlainText().toStdString();
-    auto const parse_result_ = parser_(std::cbegin(source_), std::cend(source_));
-    if (!!parse_result_.error_description_) {
-        std::cerr << "Can't parse the source text:" << std::endl
+    auto const parse_result_ = insituc::parser::parse(std::cbegin(source_), std::cend(source_));
+    if (!!parse_result_.error_) {
+        std::cerr << "Can't parse source:" << std::endl
                   << "//< begin" << std::endl
                   << source_ << std::endl
                   << "//< end" << std::endl;
-        QMessageBox::critical(this, "Failure!", "Can't parse the source text.");
+        {
+            auto const & error_description_ = *parse_result_.error_;
+            std::cerr << "Error: \"" << error_description_.which_
+                      << "\" at input position: ";
+            std::copy(error_description_.where_, error_description_.last_, std::ostreambuf_iterator< char_type >(std::cerr));
+            std::cerr << std::endl;
+        }
+        QMessageBox::critical(this, "Failure!", "Can't parse source.");
         return;
     }
     ast_ = std::move(parse_result_.ast_);
@@ -262,11 +269,10 @@ void InsitucCADMainWindow::on_actionRemoveTransformation_triggered()
 }
 
 bool
-InsitucCADMainWindow::transformationTraverse(TreeModelTranfsormations::NodeList const & nodes,
-                                             std::list< insituc::ast::program > & _program)
+InsitucCADMainWindow::transformationTraverse(TreeModelTranfsormations::NodeList const & nodes)
 {
-    ast::program const & node_ = _program.back();
-    for (std::shared_ptr< TreeModelTranfsormations::Node > const & pnode : nodes) {
+    for (auto const & pnode : nodes) {
+        assert(!!pnode);
         TreeModelTranfsormations::Node const & node = *pnode;
         if (node.used) {
             if (!(node.wrt < treeModelTranfsormations->wrts.size())) {
@@ -277,17 +283,11 @@ InsitucCADMainWindow::transformationTraverse(TreeModelTranfsormations::NodeList 
                 qWarning("wrt index is negative");
                 return false;
             }
-            derive_incrementally_.enter();
-            ast::symbol const wrt_{treeModelTranfsormations->wrts.at(node.wrt).first.toStdString()};
-            derive_incrementally_.push(node_, wrt_);
+            //_programs.push_back(ast::program_ptr::make_shared(transform::derive(_programs, ast::symbols{{treeModelTranfsormations->wrts.at(node.wrt).first.toStdString()}})));
             if (node.postSimplify) {
-                derive_incrementally_.derive(evaluate_);
             } else {
-                derive_incrementally_.derive([] (auto && p) { return std::move(p); });
             }
-            derive_incrementally_.pop();
-            _program.push_back(derive_incrementally_.leave());
-            if (!transformationTraverse(node.children, _program)) {
+            if (!transformationTraverse(node.children)) {
                 return false;
             }
         }
@@ -297,19 +297,14 @@ InsitucCADMainWindow::transformationTraverse(TreeModelTranfsormations::NodeList 
 
 void InsitucCADMainWindow::on_actionTransform_triggered()
 {
-    std::list< ast::program > sources_;
-    sources_.push_back(evaluate_(ast_));
-    if (!transformationTraverse(treeModelTranfsormations->nodes, sources_)) {
+    program_ = ast::program_ptr::make_shared(transform::evaluate(std::as_const(*ast_)));
+    if (!transformationTraverse(treeModelTranfsormations->nodes)) {
         qWarning("can't apply transformations to AST");
         QMessageBox::critical(this, "Failure!", "Can't apply transformations to AST.");
         return;
     }
-    program_.entries_.clear();
-    for (ast::program & source_ : sources_) {
-        program_.append(std::move(source_));
-    }
     {
-        oss_ << program_ << std::endl;
+        oss_ << *program_ << std::endl;
         ui->textEditAst->setPlainText(QString::fromStdString(oss_.str()));
         oss_.clear();
         oss_.str("");
@@ -319,7 +314,7 @@ void InsitucCADMainWindow::on_actionTransform_triggered()
 
 void InsitucCADMainWindow::on_actionBuild_triggered()
 {
-    if (program_.entries_.empty()) {
+    if (!program_) {
         std::cerr << "Empty AST." << std::endl;
         QMessageBox::critical(this, "Failure!", "AST is empty.");
         return;
@@ -335,50 +330,49 @@ void InsitucCADMainWindow::on_actionBuild_triggered()
             QPair< QString, QString > const & globalVariable = treeModelTranfsormations->wrts.at(i);
             Q_ASSERT(!globalVariable.first.isEmpty());
             meta::symbol_type const name_{{globalVariable.first.toStdString()}, {}, {}};
-            assert(!assembler_.is_global_variable(name_));
-            assert(!assembler_.is_reserved_symbol(name_));
-            assert(!assembler_.is_dummy_placeholder(name_));
-            assert(!assembler_.is_function(name_));
+            auto const print_err = [&]
+            {
+                std::string const s = oss_.str();
+                std::cerr << s << std::endl;
+                QMessageBox::critical(this, "Failure!", QString::fromStdString(s));
+                oss_.clear();
+                oss_.str("");
+            };
+            if (assembler_.is_global_variable(name_)) {
+                oss_ << "Global variable with name \"" << name_ << "\" at line " << i << " is already defined";
+                return print_err();
+            }
+            if (assembler_.is_reserved_symbol(name_)) {
+                oss_ << "Name \"" << name_ << "\" at line " << i << " intended for global variable is reserved symbol";
+                return print_err();
+            }
+            if (assembler_.is_dummy_placeholder(name_)) {
+                oss_ << "Name \"" << name_ << "\" at line " << i << " intended for global variable is dummy placeholder";
+                return print_err();
+            }
+            if (assembler_.is_function(name_)) {
+                oss_ << "Name \"" << name_ << "\" at line " << i << " intended for global variable already used as function name";
+                return print_err();
+            }
             if (globalVariable.second.isEmpty()) {
-                if (!assembler_.add_global_variable(name_)) {
-                    oss_ << "Variable name \"" << name_ << "\" at line " << i << " is not valid global variable name";
-                    std::string const s = oss_.str();
-                    std::cerr << s << std::endl;
-                    QMessageBox::critical(this, "Failure!", QString::fromStdString(s));
-                    oss_.clear();
-                    oss_.str("");
-                    return;
-                }
-                std::cout << "Variable \"" << name_ << "\" without initial value" << std::endl;
+                assembler_.add_global_variable(name_);
+                std::cout << "Added variable \"" << name_ << "\" without initial value" << std::endl;
             } else {
-                meta::symbol_type const value_string_{{globalVariable.second.toStdString()}, {}, {}};
-                auto value_ = real_number_parser_(std::cbegin(value_string_.symbol_.name_), std::cend(value_string_.symbol_.name_));
-                if (!value_) {                    
+                string_type const value_string_ = globalVariable.second.toStdString();
+                auto value_ = parser::parse_real_number(std::cbegin(value_string_), std::cend(value_string_));
+                if (!value_) {
                     oss_ << "String \"" << value_string_ << "\" at line " << i << " is not valid global variable value representation";
-                    std::string const s = oss_.str();
-                    std::cerr << s << std::endl;
-                    QMessageBox::critical(this, "Failure!", QString::fromStdString(s));
-                    oss_.clear();
-                    oss_.str("");
-                    return;
+                    return print_err();
                 }
-                if (!assembler_.add_global_variable(name_, value_.value())) {
-                    oss_ << "Variable name \"" << name_ << "\" at line " << i << " is not valid global variable name";
-                    std::string const s = oss_.str();
-                    std::cerr << s << std::endl;
-                    QMessageBox::critical(this, "Failure!", QString::fromStdString(s));
-                    oss_.clear();
-                    oss_.str("");
-                    return;
-                }
-                std::cout << "Variable \"" << name_ << "\" with initial value " << value_.value() << std::endl;
+                assembler_.add_global_variable(name_, value_.value());
+                std::cout << "Variable \"" << name_ << "\" with initial value " << value_.value() << " have been added" << std::endl;
             }
         }
     }
-    if (!compiler_(program_)) {
+    if (!compiler_(*program_)) {
         std::cerr << "Can't compile AST:" << std::endl
                   << "//< begin" << std::endl
-                  << program_ << std::endl
+                  << *program_ << std::endl
                   << "//< end" << std::endl;
         QMessageBox::critical(this, "Failure!", "Can't compile AST.");
         return;

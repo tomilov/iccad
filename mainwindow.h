@@ -37,18 +37,11 @@ class InsitucCADMainWindow final
 
     std::ostringstream oss_;
 
-    insituc::parser::parser const parser_{};
-    insituc::parser::real_number_parser const real_number_parser_{};
     insituc::meta::assembler assembler_;
     insituc::meta::compiler const compiler_{assembler_};
-    insituc::ast::program ast_;
+    insituc::ast::program_ptr ast_;
 
-    insituc::transform::derivator derive_;
-    typename insituc::transform::derivator::incremental derive_incrementally_{derive_};
-    typename insituc::transform::derivator::dependent_recursive derive_dependent_recursively_{derive_};
-
-    insituc::transform::evaluator const evaluate_{};
-    insituc::ast::program program_;
+    insituc::ast::program_ptr program_;
 
     insituc::runtime::instance instance_;
     insituc::runtime::translator translator_;
@@ -102,8 +95,7 @@ private :
     setupTextEditorHighlighter(QTextEdit * textEdit);
 
     bool
-    transformationTraverse(TreeModelTranfsormations::NodeList const & nodes,
-                           std::list< insituc::ast::program > & _program);
+    transformationTraverse(TreeModelTranfsormations::NodeList const & nodes);
 
 };
 
